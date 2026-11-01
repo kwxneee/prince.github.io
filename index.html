@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prince Reynald M. Gonzales – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Anton&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#2b2d3d; --bg2:#262837; --bg3:#2f3144; --card:#3b3d52;
+  --text:#ffffff; --muted:#8b8da3; --accent:#fdb022;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;-webkit-text-size-adjust:100%}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+img,svg{max-width:100%}
+body{font-family:'Outfit','Segoe UI',Arial,sans-serif;background:var(--bg2);color:var(--text);line-height:1.5}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px;width:100%}
+.label{font-size:14px;color:var(--muted);letter-spacing:.5px;margin-bottom:14px;display:block}
+.label::before{content:"— "}
+p.small{font-size:16px;color:var(--muted);max-width:360px;line-height:1.7}
+.link{color:var(--accent);font-size:18px;font-weight:500;display:inline-flex;gap:10px;align-items:center;cursor:pointer}
+.link::after{content:"→";font-size:16px}
+.link.u{border-bottom:1px solid var(--accent)}
+
+/* 5 pages, each one screen tall */
+.page{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;scroll-snap-align:start;overflow-x:clip}
+.page>section,.page>header{display:flex;align-items:center;position:relative}
+
+/* fixed top bar (always visible) */
+.topnav{position:fixed;top:0;left:0;right:0;height:64px;z-index:100;background:var(--bg);border-bottom:1px solid #3a3c52}
+.topnav .inner{max-width:1100px;height:100%;margin:0 auto;padding:0 40px;display:flex;justify-content:flex-end;gap:6px}
+.topnav a{position:relative;display:flex;align-items:center;height:100%;padding:0 clamp(8px,1.2vw,16px);font-size:clamp(14px,1.55vw,21px);font-weight:500;color:#6c6e84;transition:color .2s;white-space:nowrap}
+.topnav a:hover{color:#c9cade}
+.topnav a.active{color:#fff}
+.topnav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--accent)}
+
+/* PAGE 0: homepage (navy + yellow, big name at the top)
+   everything is sized from the window width AND height, so the name, the photo and the
+   headline always fit on one screen without touching each other */
+#homepage{height:100vh;height:100svh;min-height:600px}
+.homehero{flex:1;min-height:0;display:block!important;background:var(--bg);overflow:hidden;
+  --n:min(4.2vw,10vh);                            /* name size */
+  --h:clamp(34px,min(5vw,8.5vh),104px);         /* headline size */
+  --G:calc(1.84*var(--n) + 3vh + 2.94*var(--h) + 2.4vh + 24px); /* height of name + headline together */
+}
+.hcopy{position:absolute;left:7vw;top:calc(50% + 32px - var(--G)/2 + 1.84*var(--n) + 3vh);z-index:5}
+.htag{display:flex;align-items:center;gap:10px;font-size:clamp(12px,1.6vh,15px);font-weight:600;text-transform:uppercase;margin-bottom:2.4vh;color:var(--muted)}
+.htag i{width:10px;height:10px;background:var(--accent);display:block}
+.hl{font-family:'Anton',Impact,'Arial Narrow',sans-serif;font-weight:400;font-size:var(--h);line-height:.98;text-transform:uppercase;color:#6c6e84}
+.hl em{font-style:normal;color:#fff}
+.hstage{position:absolute;top:0;bottom:0;right:9vw;width:min(44vw,68vh)}
+.hcircle{position:absolute;left:0;right:0;top:calc(50% + 32px - min(44vw,68vh)/2);aspect-ratio:1;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#fdb022 0%,#c98a17 30%,#3b3d52 70%,#2b2d3d 100%)}
+/* the photo sits inside the circle and is cut off by its edge */
+.hphoto{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:96%;width:auto;display:block}
+.hadd{position:absolute;left:0;right:0;top:calc(50% + 32px - min(44vw,68vh)/2);aspect-ratio:1;border-radius:50%;z-index:2;border:2px dashed #4a4c62;display:flex;align-items:center;justify-content:center;text-align:center;font-size:17px;font-weight:600;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s}
+.hadd:hover{border-color:var(--accent);color:var(--accent)}
+/* the name is narrower than the space left of the photo (it ends before the circle starts) */
+.hname{position:absolute;left:7vw;top:calc(50% + 32px - var(--G)/2);z-index:6;font-family:'Archivo Black','Arial Black',sans-serif;font-size:var(--n);line-height:.92;white-space:nowrap;text-transform:uppercase;letter-spacing:-.02em;pointer-events:none;color:#fff}
+
+/* PAGE 1: me (personal information + chronology) */
+.hero{flex:1.6;min-height:620px;padding-top:64px;background:var(--bg);overflow:hidden;align-items:stretch!important}
+.hero-inner{position:relative;flex:1}
+.hero-inner .left{position:absolute;left:0;top:0;z-index:2}
+.hero h1{font-size:58px;line-height:1.05;font-weight:500;margin-top:11vh;letter-spacing:-.5px}
+.hero h1::after{content:"";display:block;width:20px;height:2px;background:var(--accent);margin-top:14px}
+.social{display:flex;gap:14px;margin-top:50px}
+.social a{display:flex;color:var(--muted);transition:color .2s,transform .2s}
+.social svg{width:26px;height:26px;display:block}
+.social a:hover{color:var(--accent);transform:translateY(-2px)}
+.portrait{position:absolute;left:calc(50% - 260px);bottom:0;height:72%;max-height:440px;width:auto;display:block;z-index:1}
+/* the laptop drawn in front of the photo (its size and spot are set by the script at the bottom) */
+.laptop{position:absolute;z-index:2;display:block;width:420px;height:auto;pointer-events:none;filter:drop-shadow(0 -8px 20px #0007)}
+.photo-add{position:absolute;left:calc(50% - 230px);bottom:0;width:300px;height:72%;max-height:440px;z-index:1;border:2px dashed #4a4c62;border-bottom:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:17px;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s}
+.photo-add:hover{border-color:var(--accent);color:var(--accent)}
+.intro{position:absolute;left:calc(50% + 110px);top:54%;transform:translateY(-50%);width:400px}
+.intro h2{font-size:26px;font-weight:500;line-height:1.4;margin-bottom:10px}
+
+/* label + value rows (personal info lists) */
+.info{max-width:400px}
+.info>div{display:grid;grid-template-columns:104px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #3a3c52;font-size:16px;line-height:1.5}
+.info dt{color:var(--muted)}
+.info dd{color:#fff;word-break:break-word}
+
+.about{flex:1;background:var(--bg2);padding:50px 0}
+.about .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;align-items:start}
+.about h3{font-size:24px;font-weight:500;line-height:1.4;margin-bottom:10px}
+.about .links{display:flex;flex-direction:column;align-items:flex-start;gap:18px;margin-top:30px}
+.about .links .link{margin-top:0}
+.focus{margin-left:18px;font-size:16px;line-height:1.9;color:var(--muted);max-width:360px}
+.focus li::marker{color:var(--accent)}
+
+/* chronology: the past, the present, the future
+   (its own full-screen snap point, so the link stops here and never pulls in the Projects page) */
+.chrono{background:var(--bg);min-height:100vh;padding:110px 0 80px;scroll-snap-align:start}
+.chrono .wrap{display:block}
+.chrono h3{font-size:28px;font-weight:500;line-height:1.4}
+.chrono .dot{color:var(--accent);margin:0 .4em}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;position:relative;margin-top:44px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:#3a3c52}
+.step{position:relative;padding-top:38px}
+.step::before{content:"";position:absolute;top:0;left:0;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.step.now::before{background:var(--accent)}
+.step small{display:block;color:var(--muted);font-size:13px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.step h4{font-size:22px;font-weight:500;line-height:1.3;margin-bottom:8px}
+.step p{font-size:16px;color:var(--muted);line-height:1.7;max-width:320px}
+
+/* PAGE 2: projects and achievements */
+.services{flex:1;background:var(--bg2);padding:100px 0 30px}
+.services .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.svc{background:var(--card);height:180px;padding:0 24px;display:flex;flex-direction:column;justify-content:center;gap:2px;opacity:.9;cursor:pointer;transition:opacity .2s}
+.svc:hover{opacity:1}
+.svc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.svc.on{background:var(--accent);color:#2b2d3d;opacity:1}
+.svc i{width:20px;height:20px;border:1.5px solid currentColor;border-radius:3px;margin-bottom:6px;opacity:.8;transition:background .2s}
+/* the small box turns solid white on the card that is selected */
+.svc.on i{background:#fff;border-color:#fff;opacity:1}
+.svc h4{font-size:24px;font-weight:500}
+.svc small{font-size:15px;opacity:.7}
+
+.works{flex:3;background:var(--bg);padding:70px 0;scroll-margin-top:64px}
+.works .wrap{display:grid;grid-template-columns:290px 1fr;gap:50px}
+.works h3{font-size:24px;font-weight:500;line-height:1.4;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.proj{background:#202233;height:250px;padding:14px;position:relative;overflow:hidden}
+.proj:nth-child(even){margin-top:50px}
+.proj small{font-size:13px;color:var(--muted);float:right}
+.proj h5{position:absolute;left:14px;bottom:18px;font-size:20px;font-weight:500;line-height:1.2;width:130px;z-index:2}
+.proj .mock{position:absolute;right:-30px;top:44px;width:70%;height:75%;background:linear-gradient(135deg,#2d3250,#14162a);border-radius:6px;transform:perspective(400px) rotateY(-18deg) rotateX(8deg);box-shadow:0 10px 30px #0008;overflow:hidden}
+.proj .mock img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.proj:nth-child(2) .mock{background:linear-gradient(135deg,#3a2d3d,#15151f)}
+.proj:nth-child(3) .mock{background:linear-gradient(135deg,#242a44,#101424)}
+.proj:nth-child(4) .mock{background:linear-gradient(135deg,#2c3340,#10131c)}
+.proj .cap{position:absolute;left:14px;bottom:14px;width:130px;z-index:3;font-size:15px;background:#0009;padding:6px 8px;border:0;border-radius:3px;margin:0}
+.del{position:absolute;z-index:3;width:28px;height:28px;border-radius:50%;background:#000b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
+.del:hover{background:#c0392b}
+.proj .del{top:44px;left:14px}
+
+/* PAGE 3: parents */
+.parents{flex:1;background:var(--bg);padding:110px 0 70px;scroll-margin-top:0}
+.parents .wrap{display:grid;grid-template-columns:290px 1fr;gap:50px;align-items:start}
+.parents h3{font-size:24px;font-weight:500;line-height:1.4;margin-bottom:10px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.pcard{background:#202233;padding:14px}
+.pphoto{position:relative;height:300px;background:linear-gradient(135deg,#2d3250,#14162a);overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;color:var(--muted);font-size:15px}
+.pphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.pphoto .del{top:10px;right:10px}
+.edit .pphoto{border:2px dashed #4a4c62;cursor:pointer;transition:border-color .2s,color .2s}
+.edit .pphoto:hover,.edit .pphoto.over{border-color:var(--accent);color:var(--accent)}
+.edit .pphoto img{cursor:pointer}
+.pcard small{display:block;color:var(--muted);font-size:13px;margin:14px 0 2px}
+.pcard h4{font-size:22px;font-weight:500;line-height:1.3}
+.pcard p{font-size:15px;color:var(--muted);line-height:1.7;margin-top:6px}
+[contenteditable]{outline:1px dashed #4a4c62;outline-offset:3px;cursor:text}
+[contenteditable]:focus{outline-color:var(--accent)}
+
+/* PAGE 4: contact */
+.contact{flex:1;background:var(--bg2);padding:110px 0 70px}
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact h3{font-size:28px;font-weight:500;line-height:1.4;margin-bottom:14px}
+.clinks{display:flex;flex-direction:column;gap:10px;margin-top:34px;max-width:320px}
+.clinks a{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--card);font-size:18px;font-weight:500;transition:background .2s,color .2s}
+.clinks a:hover{background:var(--accent);color:#2b2d3d}
+.clinks svg{width:24px;height:24px;display:block;flex:none}
+form{display:flex;flex-direction:column;gap:22px}
+label{font-size:16px;font-weight:500}
+input,textarea{width:100%;background:none;border:0;border-bottom:1px solid #4a4c62;color:#fff;font:inherit;font-size:17px;padding:8px 0;outline:none;margin-top:4px}
+input:focus,textarea:focus{border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+button{align-self:flex-start;background:var(--accent);color:#2b2d3d;border:0;padding:14px 32px;font:inherit;font-weight:500;font-size:17px;cursor:pointer}
+
+/* drag & drop area (only visible in edit mode) */
+.dz{display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;border:2px dashed #4a4c62;padding:28px 20px;margin-bottom:26px;color:var(--muted);font-size:17px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.edit .dz{display:flex}
+.dz:hover,.dz.over{border-color:var(--accent);color:var(--accent);background:#fdb02210}
+.dz small{font-size:14px;opacity:.8}
+
+/* edit bar (only visible in edit mode) */
+.editbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:150;background:var(--card);border-top:2px solid var(--accent);padding:12px 24px;gap:18px;align-items:center;justify-content:space-between;font-size:15px}
+.edit .editbar{display:flex}
+.edit{padding-bottom:70px}
+
+/* photo viewer */
+.lb{position:fixed;inset:0;z-index:300;background:#000d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;cursor:zoom-out}
+.lb img{max-width:92vw;max-height:80vh;display:block}
+.lb p{font-size:18px}
+
+/* ===== RESPONSIVE: laptop > tablet > phone ===== */
+
+/* small laptops and tablets: the "Me" page stacks (name, photo, info) instead of floating side by side */
+@media(max-width:1100px){
+  html{scroll-snap-type:none}
+  .hero{flex:none;min-height:0}
+  .hero-inner{display:flex;flex-direction:column;padding-top:40px;padding-bottom:44px}
+  .hero-inner .left{position:static}
+  .hero h1{margin-top:0;font-size:clamp(34px,7vw,58px)}
+  .social{margin-top:28px}
+  .portrait{position:relative;left:auto;bottom:auto;height:clamp(260px,50vw,400px);max-height:none;align-self:center;margin-top:36px}
+  .photo-add{position:relative;left:auto;bottom:auto;align-self:center;width:min(80vw,260px);height:300px;max-height:none;margin-top:36px;border-bottom:2px dashed #4a4c62}
+  .intro{position:static;transform:none;width:auto;margin-top:40px}
+  .info{max-width:none}
+}
+
+/* tablets: side-by-side blocks become one column */
+@media(max-width:1000px){
+  .works .wrap,.parents .wrap,.contact .wrap{grid-template-columns:1fr;gap:40px}
+  p.small{max-width:520px}
+}
+
+/* tablets (portrait) and phones: the Home page stacks (name, photo, headline) so nothing overlaps */
+@media(max-width:820px){
+  .topnav .inner{padding:0 10px;overflow-x:auto;justify-content:flex-start;gap:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .topnav .inner::-webkit-scrollbar{display:none}
+  .topnav a{font-size:15px;padding:0 12px}
+  .wrap{padding:0 22px}
+
+  #homepage{height:auto;min-height:100vh;min-height:100svh}
+  .homehero{display:flex!important;flex-direction:column;align-items:flex-start;min-height:100vh;min-height:100svh;
+    padding:calc(64px + 28px) 6vw 40px;--n:min(9.5vw,64px);--h:clamp(34px,11vw,80px)}
+  .hname{position:static;order:1;line-height:.92}
+  .hstage{position:relative;order:2;top:auto;bottom:auto;left:auto;right:auto;transform:none;width:min(72vw,340px);margin:28px auto 24px}
+  .hcircle{position:relative;top:0;left:auto;right:auto;width:100%}
+  .hadd{top:0;left:0;right:0}
+  .hcopy{position:static;order:3;margin-top:4px}
+  .htag{font-size:14px;margin-bottom:16px}
+
+  .chrono{min-height:0;padding:96px 0 60px}
+  .chrono h3{font-size:24px}
+  .tl{grid-template-columns:1fr;gap:34px;margin-top:34px}
+  .tl::before{left:7px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .step{padding:0 0 0 40px}
+  .step::before{top:3px}
+  .step p{max-width:none}
+  .proj:nth-child(even){margin-top:0}
+  .editbar{flex-direction:column;align-items:stretch;gap:10px;font-size:14px}
+  .editbar button{align-self:stretch}
+}
+
+/* phones */
+@media(max-width:600px){
+  .wrap{padding:0 20px}
+  .services{padding:90px 0 20px}
+  .services .wrap,.pgrid,.grid{grid-template-columns:1fr}
+  .svc{height:140px}
+  .works{padding:50px 0}
+  .parents,.contact{padding:90px 0 50px}
+  .contact h3{font-size:24px}
+  .clinks{max-width:none}
+  .pphoto{height:260px}
+  .info>div{grid-template-columns:90px 1fr}
+  .intro h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="active" href="#homepage">Home</a>
+    <a href="#home">Me</a>
+    <a href="#services">Projects and Achievements</a>
+    <a href="#parents">Parents</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE 0: HOMEPAGE -->
+<div class="page" id="homepage">
+  <section class="homehero">
+    <div class="hcopy">
+      <div class="htag"><i></i>First-Year IT Student</div>
+      <h1 class="hl"><em>Building secure</em><br>&amp; scalable digital<br>environments</h1>
+    </div>
+
+    <div class="hstage">
+      <div class="hcircle">
+        <img class="hphoto" id="homePhoto" alt="Prince Reynald M. Gonzales" hidden>
+      </div>
+      <label class="hadd" id="homePhotoAdd" hidden>Click here to<br>add your photo<input type="file" id="homePhotoInput" accept="image/*" hidden></label>
+    </div>
+
+    <div class="hname">Prince Reynald<br>M. Gonzales</div>
+  </section>
+</div>
+
+<!-- PAGE 1: ME (PERSONAL INFORMATION + CHRONOLOGY) -->
+<div class="page" id="home">
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div class="left">
+        <h1>Prince Reynald<br>M. Gonzales.</h1>
+        <div class="social">
+          <a href="https://www.facebook.com/princereynald.gonzales.1" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.6V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V13h2.7v8z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/princee_rg/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.snapchat.com/web" target="_blank" rel="noopener" aria-label="Snapchat">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3c-2.8 0-4.6 2-4.6 4.8v1.9c-.6.1-1.2 0-1.7-.3-.3-.1-.6.2-.4.5.3.5 1 .8 1.8 1-.2.7-.9 1.5-2.2 2-.3.1-.3.5 0 .6.7.3 1.3.4 1.6.6.1.4.1.8.4 1 .4.2 1 0 1.6.2.9.3 1.5 1.9 3.5 1.9s2.6-1.6 3.5-1.9c.6-.2 1.2 0 1.6-.2.3-.2.3-.6.4-1 .3-.2.9-.3 1.6-.6.3-.1.3-.5 0-.6-1.3-.5-2-1.3-2.2-2 .8-.2 1.5-.5 1.8-1 .2-.3-.1-.6-.4-.5-.5.3-1.1.4-1.7.3V7.8C16.6 5 14.8 3 12 3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- YOUR PHOTO: set the file name in the script at the bottom (PHOTO_FILE). If the file isn't found, click the box to pick a photo. -->
+      <img class="portrait" id="photo" alt="Prince Reynald M. Gonzales" hidden>
+      <!-- laptop in front of the photo, so it looks like you are using it -->
+      <svg class="laptop" id="laptop" viewBox="0 0 440 168" aria-hidden="true" hidden>
+        <defs>
+          <linearGradient id="lapLid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a4d66"/>
+            <stop offset="1" stop-color="#2f3144"/>
+          </linearGradient>
+          <linearGradient id="lapBase" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#7c7f98"/>
+            <stop offset="1" stop-color="#44475c"/>
+          </linearGradient>
+        </defs>
+        <!-- back of the screen -->
+        <rect x="46" y="2" width="348" height="140" rx="14" fill="url(#lapLid)" stroke="#1d1f2e" stroke-width="2"/>
+        <rect x="53" y="9" width="334" height="126" rx="9" fill="none" stroke="#ffffff" stroke-opacity=".07"/>
+        <!-- glowing logo -->
+        <circle cx="220" cy="72" r="17" fill="none" stroke="#fdb022" stroke-width="2.5" opacity=".9"/>
+        <circle cx="220" cy="72" r="6" fill="#fdb022"/>
+        <!-- hinge + base -->
+        <rect x="46" y="138" width="348" height="7" fill="#1d1f2e" opacity=".7"/>
+        <path d="M6 144H434Q440 144 438 152Q436 162 424 162H16Q4 162 2 152Q0 144 6 144Z" fill="url(#lapBase)" stroke="#1d1f2e" stroke-width="1.5"/>
+        <rect x="184" y="144" width="72" height="6" rx="3" fill="#2b2d3d"/>
+      </svg>
+      <label class="photo-add" id="photoAdd" hidden>Click here to<br>add your photo<input type="file" id="photoInput" accept="image/*" hidden></label>
+      <div class="intro">
+        <span class="label">Personal Information</span>
+        <h2>About Me.</h2>
+        <dl class="info">
+          <div><dt>Full name</dt><dd class="ed">Prince Reynald M. Gonzales</dd></div>
+          <div><dt>Birthday</dt><dd class="ed">Month DD, YYYY</dd></div>
+          <div><dt>Age</dt><dd class="ed">00 years old</dd></div>
+          <div><dt>Address</dt><dd class="ed">City, Province</dd></div>
+          <div><dt>Email</dt><dd class="ed">you@email.com</dd></div>
+        </dl>
+      </div>
+    </div>
+  </header>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div>
+        <span class="label">Education</span>
+        <h3>Where I study.</h3>
+        <dl class="info">
+          <div><dt>School</dt><dd class="ed">Your school name</dd></div>
+          <div><dt>Course</dt><dd class="ed">Information Technology</dd></div>
+          <div><dt>Year level</dt><dd class="ed">1st Year</dd></div>
+          <div><dt>Focus</dt><dd class="ed">Network and Security</dd></div>
+        </dl>
+      </div>
+      <div>
+        <span class="label">Interests</span>
+        <h3>What I'm learning.</h3>
+        <ul class="focus ed">
+          <li>Network architectures</li>
+          <li>Cybersecurity protocols</li>
+          <li>Infrastructure defense</li>
+        </ul>
+      </div>
+      <div>
+        <span class="label">More about me</span>
+        <h3>Beyond school.</h3>
+        <dl class="info">
+          <div><dt>Hobbies</dt><dd class="ed">Add your hobbies</dd></div>
+          <div><dt>Languages</dt><dd class="ed">Add your languages</dd></div>
+          <div><dt>Goal</dt><dd class="ed">Build secure and reliable digital solutions</dd></div>
+        </dl>
+        <div class="links">
+          <a class="link u" href="#services">My Projects and Achievements</a>
+          <a class="link u" href="#chrono">Chronology</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chrono" id="chrono">
+    <div class="wrap">
+      <span class="label">Chronology</span>
+      <h3>The Past <span class="dot">•</span> The Present <span class="dot">•</span> The Future</h3>
+      <div class="tl">
+        <div class="step">
+          <small>The Past</small>
+          <h4 class="ed">Where I started.</h4>
+          <p class="ed">Write about your early years, your family, and the moment you first became curious about computers and technology.</p>
+        </div>
+        <div class="step now">
+          <small>The Present</small>
+          <h4 class="ed">Where I am now.</h4>
+          <p class="ed">A first-year IT student specializing in Network and Security, building my foundation in network architectures, cybersecurity protocols, and infrastructure defense.</p>
+        </div>
+        <div class="step">
+          <small>The Future</small>
+          <h4 class="ed">Where I'm headed.</h4>
+          <p class="ed">I want to build secure and scalable digital environments. Add your goals here: the skills, certifications and career you're working toward.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PAGE 2: PROJECTS AND ACHIEVEMENTS -->
+<div class="page" id="page2">
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="svc on" data-cat="projects" role="button" tabindex="0"><i></i><h4>Projects.</h4><small><span class="n">0</span> Photos</small></div>
+      <div class="svc" data-cat="achievements" role="button" tabindex="0"><i></i><h4>School Achievements.</h4><small><span class="n">0</span> Photos</small></div>
+    </div>
+  </section>
+
+  <section class="works" id="works">
+    <div class="wrap">
+      <div>
+        <span class="label" id="catLabel">Projects</span>
+        <h3 id="catTitle">All Creative Works, Selected projects.</h3>
+        <p class="small" id="catDesc">Photos of the projects I've worked on.</p>
+      </div>
+      <div>
+        <div class="dz" id="dz" tabindex="0">
+          <span>Drag &amp; drop photos here, or click to choose</span>
+          <small id="dzNote">Adding to: Projects</small>
+          <input type="file" id="fileIn" accept="image/*" multiple hidden>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PAGE 3: PARENTS -->
+<div class="page" id="page3">
+  <section class="parents" id="parents">
+    <div class="wrap">
+      <div>
+        <span class="label">Parents</span>
+        <h3 class="ed" id="parentsTitle">My Parents.</h3>
+        <p class="small ed" id="parentsDesc">The people behind everything I've achieved. Thank you for your love, support and sacrifices.</p>
+      </div>
+      <div class="pgrid">
+        <div class="pcard">
+          <div class="pphoto" data-who="mother"></div>
+          <small class="ed">Mother</small>
+          <h4 class="ed">Mother's Name</h4>
+          <p class="ed">Write a short message for your mother here.</p>
+        </div>
+        <div class="pcard">
+          <div class="pphoto" data-who="father"></div>
+          <small class="ed">Father</small>
+          <h4 class="ed">Father's Name</h4>
+          <p class="ed">Write a short message for your father here.</p>
+        </div>
+      </div>
+      <input type="file" id="pIn" accept="image/*" hidden>
+    </div>
+  </section>
+</div>
+
+<!-- PAGE 4: CONTACT -->
+<div class="page" id="page4">
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div>
+        <span class="label">Contact</span>
+        <h3>Let’s Work Together.<br>&amp; Discussion.</h3>
+        <p class="small">Have a project in mind, a question about networking, or just want to connect? Drop a message and let's build something secure.</p>
+        <div class="clinks">
+          <a href="https://www.facebook.com/princereynald.gonzales.1" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.6V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V13h2.7v8z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/princee_rg/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.snapchat.com/web" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3c-2.8 0-4.6 2-4.6 4.8v1.9c-.6.1-1.2 0-1.7-.3-.3-.1-.6.2-.4.5.3.5 1 .8 1.8 1-.2.7-.9 1.5-2.2 2-.3.1-.3.5 0 .6.7.3 1.3.4 1.6.6.1.4.1.8.4 1 .4.2 1 0 1.6.2.9.3 1.5 1.9 3.5 1.9s2.6-1.6 3.5-1.9c.6-.2 1.2 0 1.6-.2.3-.2.3-.6.4-1 .3-.2.9-.3 1.6-.6.3-.1.3-.5 0-.6-1.3-.5-2-1.3-2.2-2 .8-.2 1.5-.5 1.8-1 .2-.3-.1-.6-.4-.5-.5.3-1.1.4-1.7.3V7.8C16.6 5 14.8 3 12 3z"/></svg>
+            Snapchat
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3>Send me a message.</h3>
+        <form onsubmit="return false">
+          <label>What’s your name?<input type="text" placeholder="Enter your name"></label>
+          <label>Your email<input type="email" placeholder="you@email.com"></label>
+          <label>Your message<textarea rows="3" placeholder="Tell me more"></textarea></label>
+          <button type="submit">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- edit bar: only shows when the page is opened with ?edit -->
+<div class="editbar" id="editbar">
+  <span id="editMsg">Edit mode: drag photos in, then click “Save website file” and upload the downloaded index.html to your hosting.</span>
+  <button type="button" id="saveBtn">Save website file</button>
+</div>
+
+<!-- photo viewer -->
+<div class="lb" id="lb" hidden><img id="lbImg" alt=""><p id="lbCap"></p></div>
+
+<!-- your saved photos live here (the “Save website file” button rewrites this) -->
+<script id="gallery-data" type="application/json">{"projects":[],"achievements":[],"parents":{"mother":"","father":""}}</script>
+
+<script>
+// ===== YOUR PHOTO =====
+// Put your photo in the same folder as this file and type its exact name here:
+const PHOTO_FILE = "photo.png";
+// ======================
+// the same photo is used on the Home page and the Me page
+let saved=null; try{saved=localStorage.getItem('portfolioPhoto')}catch(e){}
+const pics=[
+  {img:document.getElementById('photo'),add:document.getElementById('photoAdd'),input:document.getElementById('photoInput')},
+  {img:document.getElementById('homePhoto'),add:document.getElementById('homePhotoAdd'),input:document.getElementById('homePhotoInput')}
+];
+pics.forEach(p=>{
+  p.tried=false;
+  p.img.onload=()=>{p.img.hidden=false;p.add.hidden=true};
+  p.img.onerror=()=>{
+    if(saved&&!p.tried){p.tried=true;p.img.src=saved;return}
+    p.img.hidden=true;p.add.hidden=false;
+  };
+  p.img.src=PHOTO_FILE;
+  // picking a photo by hand (works even if the file name above is wrong)
+  p.input.addEventListener('change',()=>{
+    const f=p.input.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{
+      saved=r.result;
+      try{localStorage.setItem('portfolioPhoto',r.result)}catch(e){}
+      pics.forEach(q=>{q.tried=true;q.img.src=r.result});
+    };
+    r.readAsDataURL(f);
+  });
+});
+
+// ===== LAPTOP IN FRONT OF THE "ME" PHOTO =====
+// sizes the laptop to the photo and sits it at the bottom, so it looks like you're using it
+const mePhoto=document.getElementById('photo');
+const laptop=document.getElementById('laptop');
+function placeLaptop(){
+  if(mePhoto.hidden||!mePhoto.naturalWidth){laptop.hidden=true;return}
+  laptop.hidden=false;
+  const par=mePhoto.parentElement.getBoundingClientRect();
+  const r=mePhoto.getBoundingClientRect();
+  laptop.style.width=(r.width*1.2)+'px';
+  laptop.style.left=(r.left-par.left-r.width*0.1)+'px';
+  laptop.style.top=(r.bottom-par.top-laptop.getBoundingClientRect().height+2)+'px';
+}
+mePhoto.addEventListener('load',placeLaptop);
+mePhoto.addEventListener('error',()=>{laptop.hidden=true});
+window.addEventListener('resize',placeLaptop);
+window.addEventListener('load',placeLaptop);
+// keep the laptop glued to the photo whenever the layout changes (rotating a phone, fonts loading, etc.)
+if(window.ResizeObserver)new ResizeObserver(placeLaptop).observe(mePhoto.parentElement);
+</script>
+
+<script>
+// ===== PROJECTS + ACHIEVEMENTS + PARENTS PHOTOS =====
+const CATS={
+  projects:{tag:'Projects',label:'Projects',title:'All Creative Works, Selected projects.',desc:"Photos of the projects I've worked on."},
+  achievements:{tag:'Achievements',label:'Achievements',title:'School Achievements, Awards & Recognitions.',desc:'Awards and recognitions from school.'}
+};
+const DRAFT='portfolioGalleryDraft';
+const EDIT=new URLSearchParams(location.search).has('edit');
+let cat='projects';
+let data={projects:[],achievements:[],parents:{mother:'',father:''}};
+
+function load(d){
+  data.projects=d.projects||[];
+  data.achievements=d.achievements||[];
+  data.parents=Object.assign({mother:'',father:''},d.parents||{});
+}
+try{load(JSON.parse(document.getElementById('gallery-data').textContent))}catch(e){}
+
+const grid=document.getElementById('grid');
+const dz=document.getElementById('dz');
+const fileIn=document.getElementById('fileIn');
+const pIn=document.getElementById('pIn');
+const editMsg=document.getElementById('editMsg');
+const DEFAULT_MSG=editMsg.textContent;
+
+if(EDIT){
+  document.body.classList.add('edit');
+  // bring back unsaved photos from this browser, if any
+  try{const dr=localStorage.getItem(DRAFT);if(dr)load(JSON.parse(dr))}catch(e){}
+  // personal information, chronology and parents text can be typed over directly
+  document.querySelectorAll('.ed').forEach(el=>el.setAttribute('contenteditable','true'));
+  // stop the browser from opening a photo if it's dropped outside a drop area
+  ['dragover','drop'].forEach(ev=>window.addEventListener(ev,e=>e.preventDefault()));
+}
+
+function saveDraft(){
+  if(!EDIT) return;
+  try{
+    localStorage.setItem(DRAFT,JSON.stringify(data));
+    editMsg.textContent='Unsaved changes: click “Save website file” to download the updated index.html.';
+  }catch(e){
+    editMsg.textContent='Too many photos to keep a draft in this browser. Click “Save website file” now so you don’t lose them.';
+  }
+}
+
+function openLb(src,cap){
+  document.getElementById('lbImg').src=src;
+  document.getElementById('lbImg').alt=cap||'';
+  document.getElementById('lbCap').textContent=cap||'';
+  document.getElementById('lb').hidden=false;
+}
+document.getElementById('lb').addEventListener('click',()=>{document.getElementById('lb').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').hidden=true});
+
+function render(){
+  document.querySelectorAll('.svc').forEach(c=>{
+    const k=c.dataset.cat;
+    c.classList.toggle('on',k===cat);
+    c.querySelector('.n').textContent=data[k].length;
+  });
+  const c=CATS[cat];
+  document.getElementById('catLabel').textContent=c.label;
+  document.getElementById('catTitle').textContent=c.title;
+  document.getElementById('catDesc').textContent=c.desc;
+  document.getElementById('dzNote').textContent='Adding to: '+c.label;
+
+  grid.innerHTML='';
+  data[cat].forEach((it,i)=>{
+    const f=document.createElement('div');f.className='proj';
+    const tag=document.createElement('small');tag.textContent=c.tag;f.appendChild(tag);
+    const m=document.createElement('div');m.className='mock';
+    const img=new Image();img.src=it.src;img.alt=it.caption||c.tag;
+    img.addEventListener('click',()=>openLb(it.src,it.caption));
+    m.appendChild(img);f.appendChild(m);
+    if(EDIT){
+      const cap=document.createElement('input');
+      cap.className='cap';cap.type='text';cap.value=it.caption||'';cap.placeholder='Add a caption';
+      cap.addEventListener('input',()=>{it.caption=cap.value;img.alt=cap.value||c.tag;saveDraft()});
+      f.appendChild(cap);
+      const del=document.createElement('span');
+      del.className='del';del.setAttribute('role','button');del.setAttribute('aria-label','Remove photo');del.textContent='×';
+      del.addEventListener('click',e=>{e.stopPropagation();data[cat].splice(i,1);render();saveDraft()});
+      f.appendChild(del);
+    }else if(it.caption){
+      const h=document.createElement('h5');h.textContent=it.caption;f.appendChild(h);
+    }
+    grid.appendChild(f);
+  });
+
+  // no photos yet: show empty cards in the same style so the page never looks blank
+  if(!data[cat].length){
+    for(let i=0;i<4;i++){
+      const f=document.createElement('div');f.className='proj';
+      f.innerHTML='<small></small><div class="mock"></div><h5></h5>';
+      f.querySelector('small').textContent=c.tag;
+      f.querySelector('h5').textContent='Coming soon.';
+      grid.appendChild(f);
+    }
+  }
+  renderParents();
+}
+
+function renderParents(){
+  document.querySelectorAll('.pphoto').forEach(el=>{
+    const k=el.dataset.who, src=data.parents[k];
+    const name=(el.parentElement.querySelector('h4')||{}).textContent||k;
+    el.innerHTML='';
+    if(src){
+      const im=new Image();im.src=src;im.alt=name;
+      im.addEventListener('click',()=>{if(!EDIT)openLb(src,name)});
+      el.appendChild(im);
+      if(EDIT){
+        const del=document.createElement('span');
+        del.className='del';del.setAttribute('role','button');del.setAttribute('aria-label','Remove photo');del.textContent='×';
+        del.addEventListener('click',e=>{e.stopPropagation();data.parents[k]='';renderParents();saveDraft()});
+        el.appendChild(del);
+      }
+    }else{
+      el.textContent=EDIT?'Drag a photo here, or click to choose':'Photo coming soon.';
+    }
+  });
+}
+
+// category cards
+document.querySelectorAll('.svc').forEach(c=>{
+  const pick=()=>{cat=c.dataset.cat;render()};
+  c.addEventListener('click',pick);
+  c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
+});
+
+// shrink each photo so the website file stays small
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(file);
+    const im=new Image();
+    im.onload=()=>{
+      const M=1200;
+      const s=Math.min(1,M/Math.max(im.naturalWidth,im.naturalHeight));
+      const w=Math.round(im.naturalWidth*s),h=Math.round(im.naturalHeight*s);
+      const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+      const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);
+      URL.revokeObjectURL(url);
+      res(cv.toDataURL('image/jpeg',.82));
+    };
+    im.onerror=()=>{URL.revokeObjectURL(url);rej()};
+    im.src=url;
+  });
+}
+async function handleFiles(files){
+  const list=[...files].filter(f=>f.type.startsWith('image/'));
+  for(const f of list){
+    try{data[cat].push({src:await shrink(f),caption:''})}catch(e){}
+  }
+  render();saveDraft();
+}
+async function setParent(who,file){
+  if(!file||!file.type.startsWith('image/')) return;
+  try{data.parents[who]=await shrink(file)}catch(e){return}
+  renderParents();saveDraft();
+}
+
+if(EDIT){
+  // projects / achievements drop area
+  dz.addEventListener('click',()=>fileIn.click());
+  dz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fileIn.click()}});
+  fileIn.addEventListener('click',e=>e.stopPropagation());
+  fileIn.addEventListener('change',()=>{handleFiles(fileIn.files);fileIn.value=''});
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
+  ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
+  dz.addEventListener('drop',e=>handleFiles(e.dataTransfer.files));
+  // dropping straight onto the photo grid works too
+  grid.addEventListener('drop',e=>{e.preventDefault();handleFiles(e.dataTransfer.files)});
+
+  // parents photo slots
+  let target=null;
+  document.querySelectorAll('.pphoto').forEach(el=>{
+    el.addEventListener('click',()=>{target=el.dataset.who;pIn.click()});
+    ['dragenter','dragover'].forEach(ev=>el.addEventListener(ev,e=>{e.preventDefault();el.classList.add('over')}));
+    ['dragleave','drop'].forEach(ev=>el.addEventListener(ev,e=>{e.preventDefault();el.classList.remove('over')}));
+    el.addEventListener('drop',e=>{e.preventDefault();setParent(el.dataset.who,e.dataTransfer.files[0])});
+  });
+  pIn.addEventListener('change',()=>{if(target)setParent(target,pIn.files[0]);pIn.value=''});
+
+  // typing in any editable text counts as a change too
+  document.querySelectorAll('.ed').forEach(el=>el.addEventListener('input',saveDraft));
+
+  // build a fresh copy of this page with the photos and text saved inside it, and download it
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    const clone=document.documentElement.cloneNode(true);
+    clone.querySelector('#gallery-data').textContent=JSON.stringify(data).replace(/</g,'\\u003c');
+    clone.querySelector('body').classList.remove('edit');
+    clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+    clone.querySelector('#grid').innerHTML='';
+    clone.querySelectorAll('.pphoto').forEach(e=>e.innerHTML='');
+    ['#photo','#homePhoto'].forEach(id=>{const p=clone.querySelector(id);p.removeAttribute('src');p.setAttribute('hidden','')});
+    ['#photoAdd','#homePhotoAdd'].forEach(id=>clone.querySelector(id).setAttribute('hidden',''));
+    const lp=clone.querySelector('#laptop');lp.removeAttribute('style');lp.setAttribute('hidden','');
+    clone.querySelector('#lb').setAttribute('hidden','');
+    clone.querySelector('#editMsg').textContent=DEFAULT_MSG;
+    const html='<!DOCTYPE html>\n'+clone.outerHTML;
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+    a.download='index.html';
+    document.body.appendChild(a);a.click();a.remove();
+    try{localStorage.removeItem(DRAFT)}catch(e){}
+    editMsg.textContent='Saved! Upload the downloaded index.html to your hosting to replace the old one.';
+  });
+}
+
+render();
+</script>
+
+<script>
+// highlight the tab of the section currently on screen
+const tabs=[...document.querySelectorAll('.topnav a')];
+const map={homepage:'homepage',home:'home',about:'home',chrono:'home',services:'services',works:'services',parents:'parents',contact:'contact'};
+const navInner=document.querySelector('.topnav .inner');
+// on small screens the menu scrolls sideways, so keep the current tab in view
+const setActive=k=>tabs.forEach(a=>{const on=a.getAttribute('href')==='#'+k;a.classList.toggle('active',on);if(on&&navInner.scrollWidth>navInner.clientWidth)navInner.scrollTo({left:a.offsetLeft-(navInner.clientWidth-a.offsetWidth)/2,behavior:'smooth'})});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(map[e.target.id])}),{rootMargin:'-45% 0px -50% 0px'});
+Object.keys(map).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
+</script>
+</body>
+</html>
